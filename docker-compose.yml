@@ -3,6 +3,8 @@ version: '3'
 services:
   camunda:
     image: camunda/camunda-bpm-platform:tomcat-7.8.0-alpha5
+    depends_on:
+       - db
     environment:
       - JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom
       - DB_DRIVER=com.mysql.jdbc.Driver
@@ -15,6 +17,7 @@ services:
       - db
     ports:
       - "8080:8080"
+    restart: always
 
   db:
     image: mysql
@@ -25,7 +28,7 @@ services:
       - MYSQL_USER=camunda
       - MYSQL_PASSWORD=camunda
       - MYSQL_DATABASE=process-engine
-
+    restart: always
 volumes:
     webapps:
     db_data:
